@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  kibana:
+    container_name: $CONTAINER_NAME
+    build:
+      context: ${PWD}
+      dockerfile: kibana.Dockerfile
+      args:
+        VERSION: $KIBANA_VERSION
+    volumes:
+      - type: bind
+        source: "${PWD}/config/kibana.yml"
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - elk-stack
+
+networks:
+  elk-stack:
+    driver: bridge
